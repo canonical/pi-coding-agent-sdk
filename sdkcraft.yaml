@@ -12,6 +12,12 @@ platforms:
   amd64:
     build-on: [amd64]
     build-for: [amd64]
+  arm64:
+    build-on: [amd64]
+    build-for: [arm64]
+  riscv64:
+    build-on: [amd64]
+    build-for: [riscv64]
 
 plugs:
   pi-config:
