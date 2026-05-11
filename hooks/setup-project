@@ -5,7 +5,7 @@ mkdir -p /home/workshop/.pi
 # Conditionally write pi-instructions.md — do not overwrite if user already has one
 if [[ ! -f "/home/workshop/.pi/pi-instructions.md" ]]; then
     cp "${SDK}/workshop-prompt.md" "/home/workshop/.pi/pi-instructions.md"
-elif ! grep -Fq "$(head -1 "${SDK}/workshop-prompt.md")" "/home/workshop/.copilot/copilot-instructions.md"; then
+elif ! grep -Fq "$(head -1 "${SDK}/workshop-prompt.md")" "/home/workshop/.pi/pi-instructions.md"; then
     printf '\n' >> "/home/workshop/.pi/pi-instructions.md"
     cat "${SDK}/workshop-prompt.md" >> "/home/workshop/.pi/pi-instructions.md"
 fi

@@ -4,6 +4,9 @@ This SDK provides the Pi Coding Agent for AI-assisted coding within a
 workshop. The agent is sandboxed in the workshop container. Credentials 
 are persisted between workshop updates.
 
+SDK releases follow the VERSION file in this repository via `adopt-info` in
+`sdkcraft.yaml`.
+
 ---
 
 ## Reference workshop
@@ -16,7 +19,7 @@ name: pi-env
 base: ubuntu@24.04
 sdks:
   - name: pi-coding-agent
-    channel: all/edge
+    channel: latest/stable
 
 actions:
   pi: pi "$@"

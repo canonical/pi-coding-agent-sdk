@@ -1,6 +1,6 @@
 name: pi-coding-agent
 title: Pi Coding Agent CLI SDK
-version: "0.74.0"
+adopt-info: pi
 summary: Pi Coding Agent CLI - AI-powered coding assistant for the terminal
 description: |
   This SDK provides the Pi Coding Agent CLI for AI-assisted coding within a
@@ -21,10 +21,15 @@ plugs:
 parts:
   pi:
     plugin: npm
-    source: https://registry.npmjs.org/@earendil-works/pi-coding-agent/-/pi-coding-agent-0.74.0.tgz
-    source-type: tar
+    source: .
     npm-include-node: true
     npm-node-version: 22.22.1
+    override-pull: |
+      VERSION=$(cat "$CRAFT_PROJECT_DIR/VERSION")
+      craftctl set version="$VERSION"
+      curl -fLO "https://registry.npmjs.org/@earendil-works/pi-coding-agent/-/pi-coding-agent-${VERSION}.tgz"
+      tar -xzf "pi-coding-agent-${VERSION}.tgz" --strip-components=1 -C "$CRAFT_PART_SRC"
+      rm "pi-coding-agent-${VERSION}.tgz"
 
   workshop-prompt:
     plugin: dump
