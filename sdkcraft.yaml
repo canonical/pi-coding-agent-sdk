@@ -1,0 +1,32 @@
+name: pi-coding-agent
+title: Pi Coding Agent CLI SDK
+version: "0.74.0"
+summary: Pi Coding Agent CLI - AI-powered coding assistant for the terminal
+description: |
+  This SDK provides the Pi Coding Agent CLI for AI-assisted coding within a
+  workshop. The agent is sandboxed in the workshop container. Credentials are
+  persisted between workshop updates.
+license: MIT
+build-base: ubuntu@24.04
+platforms:
+  amd64:
+    build-on: [amd64]
+    build-for: [amd64]
+
+plugs:
+  pi-config:
+    interface: mount
+    workshop-target: /home/workshop/.pi
+
+parts:
+  pi:
+    plugin: npm
+    source: https://registry.npmjs.org/@earendil-works/pi-coding-agent/-/pi-coding-agent-0.74.0.tgz
+    source-type: tar
+    npm-include-node: true
+    npm-node-version: 22.22.1
+
+  workshop-prompt:
+    plugin: dump
+    source: workshop-prompt.md
+    source-type: file

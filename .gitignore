@@ -1,0 +1,10 @@
+/bin/
+
+.ipynb_checkpoints/
+.vscode/
+*.code-workspace
+
+*.out
+*.so
+*.tar.xz
+*.sdk
