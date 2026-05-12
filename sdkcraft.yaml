@@ -41,3 +41,22 @@ parts:
     plugin: dump
     source: workshop-prompt.md
     source-type: file
+
+  fd:
+    plugin: dump
+    source: .
+    organize:
+      "*.deb": .
+    override-build: |
+      curl -fLO "https://github.com/sharkdp/fd/releases/download/v$(curl -s https://api.github.com/repos/sharkdp/fd/releases/latest | grep tag_name | cut -d'"' -f4 | sed 's/v//')/fd_$(curl -s https://api.github.com/repos/sharkdp/fd/releases/latest | grep tag_name | cut -d'"' -f4 | sed 's/v//')_amd64.deb"
+      dpkg -x *.deb .
+      find . -name "fd" -type f -executable -exec mv {} "$CRAFT_PART_INSTALL/usr/local/bin/" \;
+
+  ripgrep:
+    plugin: dump
+    source: .
+    override-build: |
+      LATEST_TAG=$(curl -s https://api.github.com/repos/BurntSushi/ripgrep/releases/latest | grep tag_name | cut -d'"' -f4)
+      curl -fLO "https://github.com/BurntSushi/ripgrep/releases/download/${LATEST_TAG}/ripgrep_${LATEST_TAG}-1_amd64.deb"
+      dpkg -x *.deb .
+      find . -name "rg" -type f -executable -exec mv {} "$CRAFT_PART_INSTALL/usr/local/bin/" \;
