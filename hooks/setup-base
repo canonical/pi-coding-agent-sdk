@@ -1,5 +1,13 @@
 #!/usr/bin/bash
+set -e
 
 cat <<EOF >/etc/profile.d/pi.sh
 export PATH="${SDK}/bin:\$PATH"
 EOF
+
+# fd and ripgrep come from the Ubuntu archive (correct arch for the workshop;
+# sdkcraft does not support stage-packages). Ubuntu ships fd as `fdfind`.
+export DEBIAN_FRONTEND=noninteractive
+apt-get update
+apt-get install -y --no-install-recommends fd-find ripgrep
+ln -sf /usr/bin/fdfind /usr/local/bin/fd
