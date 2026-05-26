@@ -5,7 +5,6 @@ cat <<EOF >/etc/profile.d/pi.sh
 export PATH="${SDK}/bin:\$PATH"
 EOF
 
-# fd and ripgrep come from the Ubuntu archive (correct arch for the workshop;
 # sdkcraft does not support stage-packages). Ubuntu ships fd as `fdfind`.
 export DEBIAN_FRONTEND=noninteractive
 apt-get update
