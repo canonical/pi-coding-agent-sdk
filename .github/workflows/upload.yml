@@ -23,8 +23,19 @@ jobs:
   amd64:
     uses: canonical/sdkcraft-actions/.github/workflows/upload.yml@main
     with:
-      platforms: '["amd64","arm64"]'
+      platforms: '["amd64"]'
       platform-flag: "--build-for"
       risk: "edge"
+    secrets:
+      SDKCRAFT_STORE_CREDENTIALS: ${{ secrets.SDKCRAFT_STORE_CREDENTIALS_STAGING }}
+
+  arm64:
+    uses: canonical/sdkcraft-actions/.github/workflows/upload.yml@main
+    with:
+      platforms: '["arm64"]'
+      platform-flag: "--build-for"
+      risk: "edge"
+      # arm64 self-hosted runner (same label as build.yml / canonical/sdkcraft).
+      runs-on: '["self-hosted-linux-arm64-noble-xlarge"]'
     secrets:
       SDKCRAFT_STORE_CREDENTIALS: ${{ secrets.SDKCRAFT_STORE_CREDENTIALS_STAGING }}
