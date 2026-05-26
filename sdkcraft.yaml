@@ -9,15 +9,15 @@ description: |
 license: MIT
 build-base: ubuntu@24.04
 platforms:
+  # Build each arch natively: npm-include-node downloads node for the build
+  # host, so cross-building would bundle the wrong-arch node. riscv64 is omitted
+  # (pi needs node >=20.6.0 and Node.js publishes no linux-riscv64 binary).
   amd64:
     build-on: [amd64]
     build-for: [amd64]
   arm64:
-    build-on: [amd64]
+    build-on: [arm64]
     build-for: [arm64]
-  riscv64:
-    build-on: [amd64]
-    build-for: [riscv64]
 
 plugs:
   pi-config:
