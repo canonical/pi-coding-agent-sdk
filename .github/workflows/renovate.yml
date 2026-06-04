@@ -7,6 +7,16 @@ on:
 
 jobs:
   renovate:
-    uses: canonical/sdkcraft-actions/.github/workflows/renovate.yml@main
-    secrets:
-      token: ${{ secrets.RENOVATE_TOKEN }}
+    renovate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Run Renovate
+        uses: renovatebot/github-action@v43.0.12
+        with:
+          configurationFile: renovate.json
+          token: ${{ secrets.RENOVATE_TOKEN }}
+        env:
+          RENOVATE_REPOSITORIES: ${{ github.repository }}
