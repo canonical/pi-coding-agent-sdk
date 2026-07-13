@@ -37,6 +37,16 @@ parts:
       tar -xzf "pi-coding-agent-${VERSION}.tgz" --strip-components=1 -C "$CRAFT_PART_SRC"
       rm "pi-coding-agent-${VERSION}.tgz"
 
+  ripgrep:
+    plugin: rust
+    source: https://github.com/BurntSushi/ripgrep.git
+    source-tag: 15.1.0
+
+  sd:
+    plugin: rust
+    source: https://github.com/sharkdp/fd.git
+    source-tag: v10.4.2
+
   workshop-prompt:
     plugin: dump
     source: workshop-prompt.md
