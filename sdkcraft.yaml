@@ -39,11 +39,13 @@ parts:
 
   ripgrep:
     plugin: rust
+    rust-channel: stable
     source: https://github.com/BurntSushi/ripgrep.git
     source-tag: 15.1.0
 
   sd:
     plugin: rust
+    rust-channel: stable
     source: https://github.com/sharkdp/fd.git
     source-tag: v10.4.2
 
