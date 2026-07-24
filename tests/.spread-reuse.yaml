@@ -1,0 +1,9 @@
+backends:
+  lxd:
+    systems:
+    - ubuntu-24.04:
+        username: ubuntu
+        password: 1230687112cbd3be
+        address: 10.164.95.233
+        data:
+          name: spread-1-ubuntu-24-04

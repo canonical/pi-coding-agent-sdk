@@ -1,0 +1,4 @@
+name: test-pi-coding-agent-sdk
+base: ${BASE}
+sdks:
+  - name: try-pi-coding-agent-sdk
