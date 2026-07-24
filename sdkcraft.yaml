@@ -39,6 +39,18 @@ parts:
       rm "pi-coding-agent-${VERSION}.tgz"
       find "$CRAFT_PART_SRC" -type f -exec touch -d "$PUBLISHED_AT" {} +
 
+  ripgrep:
+    plugin: rust
+    rust-channel: stable
+    source: https://github.com/BurntSushi/ripgrep.git
+    source-tag: 15.1.0
+
+  sd:
+    plugin: rust
+    rust-channel: stable
+    source: https://github.com/sharkdp/fd.git
+    source-tag: v10.4.2
+
   workshop-prompt:
     plugin: dump
     source: workshop-prompt.md
