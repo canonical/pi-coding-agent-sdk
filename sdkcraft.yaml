@@ -41,7 +41,6 @@ parts:
       mv $CRAFT_PART_SRC/package.json.new $CRAFT_PART_SRC/package.json
       find "$CRAFT_PART_SRC" -type f -exec touch -d "$PUBLISHED_AT" {} +
     build-packages: [jq]
-
   workshop-prompt:
     plugin: dump
     source: workshop-prompt.md
