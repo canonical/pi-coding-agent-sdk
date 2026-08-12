@@ -5,8 +5,3 @@ cat <<EOF >/etc/profile.d/pi.sh
 export PATH="${SDK}/bin:\$PATH"
 EOF
 
-# Ubuntu ships fd as `fdfind`.
-export DEBIAN_FRONTEND=noninteractive
-apt-get update
-apt-get install -y --no-install-recommends fd-find ripgrep
-ln -sf /usr/bin/fdfind /usr/local/bin/fd
