@@ -12,7 +12,7 @@ platforms:
   # Build each arch natively: npm-include-node downloads node for the build
   # host, so cross-building would bundle the wrong-arch node. riscv64 is omitted
   # (pi needs node >=20.6.0 and Node.js publishes no linux-riscv64 binary).
-  amd64:
+  amd64: 
     build-on: [amd64]
     build-for: [amd64]
   arm64:
@@ -37,20 +37,9 @@ parts:
       test -n "$PUBLISHED_AT"
       tar -xzf "pi-coding-agent-${VERSION}.tgz" --strip-components=1 -C "$CRAFT_PART_SRC"
       rm "pi-coding-agent-${VERSION}.tgz"
-      find "$CRAFT_PART_SRC" -type f -exec touch -d "$PUBLISHED_AT" {} +
-
-  ripgrep:
-    plugin: rust
-    rust-channel: stable
-    source: https://github.com/BurntSushi/ripgrep.git
-    source-tag: 15.1.0
-
-  sd:
-    plugin: rust
-    rust-channel: stable
-    source: https://github.com/sharkdp/fd.git
-    source-tag: v10.4.2
-
+      jq '.dependencies["grok-mermaid"] = "^0.2.2"' $CRAFT_PART_SRC/package.json > $CRAFT_PART_SRC/package.json.new
+      mv $CRAFT_PART_SRC/package.json.new $CRAFT_PART_SRC/package.json
+    build-packages: [jq]
   workshop-prompt:
     plugin: dump
     source: workshop-prompt.md
