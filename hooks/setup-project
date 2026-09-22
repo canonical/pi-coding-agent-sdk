@@ -1,11 +1,13 @@
 #!/usr/bin/bash
 
-mkdir -p /home/workshop/.pi
+# pi loads ~/.pi/agent/AGENTS.md as its global context file.
+AGENTS_MD="/home/workshop/.pi/agent/AGENTS.md"
+mkdir -p "$(dirname "$AGENTS_MD")"
 
-# Conditionally write pi-instructions.md — do not overwrite if user already has one
-if [[ ! -f "/home/workshop/.pi/pi-instructions.md" ]]; then
-    cp "${SDK}/workshop-prompt.md" "/home/workshop/.pi/pi-instructions.md"
-elif ! grep -Fq "$(head -1 "${SDK}/workshop-prompt.md")" "/home/workshop/.pi/pi-instructions.md"; then
-    printf '\n' >> "/home/workshop/.pi/pi-instructions.md"
-    cat "${SDK}/workshop-prompt.md" >> "/home/workshop/.pi/pi-instructions.md"
+# Conditionally write AGENTS.md — do not overwrite if user already has one
+if [[ ! -f "$AGENTS_MD" ]]; then
+    cp "${SDK}/workshop-prompt.md" "$AGENTS_MD"
+elif ! grep -Fq "$(head -1 "${SDK}/workshop-prompt.md")" "$AGENTS_MD"; then
+    printf '\n' >> "$AGENTS_MD"
+    cat "${SDK}/workshop-prompt.md" >> "$AGENTS_MD"
 fi
