@@ -34,11 +34,9 @@ parts:
     override-pull: |
       VERSION=$(cat "$CRAFT_PROJECT_DIR/VERSION")
       craftctl set version="$VERSION"
-      PUBLISHED_AT=$(curl -fsSLO -w "%header{last-modified}" "https://registry.npmjs.org/@earendil-works/pi-coding-agent/-/pi-coding-agent-${VERSION}.tgz")
-      test -n "$PUBLISHED_AT"
+      curl -fLO "https://registry.npmjs.org/@earendil-works/pi-coding-agent/-/pi-coding-agent-${VERSION}.tgz"
       tar -xzf "pi-coding-agent-${VERSION}.tgz" --strip-components=1 -C "$CRAFT_PART_SRC"
       rm "pi-coding-agent-${VERSION}.tgz"
-      find "$CRAFT_PART_SRC" -type f -exec touch -d "$PUBLISHED_AT" {} +
 
   workshop-prompt:
     plugin: dump
