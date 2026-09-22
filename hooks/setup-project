@@ -1,5 +1,3 @@
-#!/usr/bin/bash
-
 # pi loads ~/.pi/agent/AGENTS.md as its global context file.
 AGENTS_MD="/home/workshop/.pi/agent/AGENTS.md"
 mkdir -p "$(dirname "$AGENTS_MD")"
