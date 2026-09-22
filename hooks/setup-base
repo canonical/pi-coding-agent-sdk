@@ -1,7 +1,15 @@
 #!/usr/bin/bash
 set -e
 
+# Workshop manages the pi version, so skip pi.dev's latest-version check.
 cat <<EOF >/etc/profile.d/pi.sh
 export PATH="${SDK}/bin:\$PATH"
+export PI_SKIP_VERSION_CHECK=1
 EOF
 
+# pi's find/grep tools use fd and ripgrep from PATH; without them pi
+# downloads its own copies into ~/.pi/agent/bin. Ubuntu ships fd as `fdfind`.
+export DEBIAN_FRONTEND=noninteractive
+apt-get update
+apt-get install -y --no-install-recommends fd-find ripgrep
+ln -sf /usr/bin/fdfind /usr/local/bin/fd

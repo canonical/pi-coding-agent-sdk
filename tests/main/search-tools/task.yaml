@@ -1,0 +1,20 @@
+summary: fd and ripgrep are on $PATH so pi does not download its own copies
+
+prepare: |
+  envsubst '${BASE}' <workshop.yaml.in >workshop.yaml
+  workshop launch
+
+restore: |
+  workshop remove || true
+
+execute: |
+  workshop exec -- bash -lc 'fd --version' | MATCH "^fd"
+  workshop exec -- bash -lc 'rg --version' | MATCH "^ripgrep"
+  # Prove the tools work, not just exist: find this workshop's own AGENTS.md.
+  workshop exec -- bash -lc 'fd --hidden --no-ignore AGENTS.md /home/workshop/.pi' | \
+    MATCH "AGENTS.md"
+  workshop exec -- bash -lc 'rg -l "Workshop Container" /home/workshop/.pi/agent' | \
+    MATCH "AGENTS.md"
+
+debug: |
+  workshop exec -- bash -lc 'ls -l /usr/local/bin/fd /usr/bin/fdfind /usr/bin/rg' || true

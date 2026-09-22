@@ -10,4 +10,10 @@ if ! sudo -u workshop --login which pi >/dev/null 2>&1; then
 	exit 0
 fi
 
+# Prove the bundled node runtime can actually start pi (health budget is 5s).
+if ! timeout 3 sudo -u workshop --login pi --version >/dev/null 2>&1; then
+	workshopctl set-health --code="pi-not-runnable" error "Pi CLI failed to run."
+	exit 0
+fi
+
 workshopctl set-health okay

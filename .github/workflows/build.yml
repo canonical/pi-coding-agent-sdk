@@ -11,12 +11,13 @@ concurrency:
 
 # Validate the build for each architecture on a native runner. `sdkcraft pack`
 # builds the platform whose build-on matches the runner, so the amd64 job
-# builds amd64 and the arm64 job builds arm64.
+# builds amd64 and the arm64 job builds arm64. The amd64 job keeps the name
+# `build` so branch protection can require the `build / build` check.
 jobs:
-  amd64:
+  build:
     uses: canonical/sdkcraft-actions/.github/workflows/build.yml@main
 
-  arm64:
+  build-arm64:
     uses: canonical/sdkcraft-actions/.github/workflows/build.yml@main
     with:
       # arm64 self-hosted runner (Canonical pool, same label canonical/sdkcraft
