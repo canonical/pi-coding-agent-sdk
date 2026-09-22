@@ -1,4 +1,3 @@
-#!/usr/bin/bash
 set -e
 
 # Workshop manages the pi version, so skip pi.dev's latest-version check.

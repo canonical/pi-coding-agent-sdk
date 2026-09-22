@@ -1,5 +1,3 @@
-#!/usr/bin/bash
-
 if [[ ! -x "${SDK}/bin/pi" ]]; then
 	workshopctl set-health --code="pi-not-installed" error "Pi CLI not installed."
 	exit 0
