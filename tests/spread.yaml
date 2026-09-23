@@ -16,4 +16,3 @@ suites:
       BASE/jammy: ubuntu@22.04
       BASE/noble: ubuntu@24.04
       BASE/resolute: ubuntu@26.04
-      EXPECTED_VERSION: '$(HOST: cat "`git rev-parse --show-toplevel`/VERSION")'
