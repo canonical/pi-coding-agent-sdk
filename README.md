@@ -16,7 +16,7 @@ name: pi-env
 base: ubuntu@24.04
 sdks:
   - name: pi-coding-agent
-    channel: latest/edge
+    channel: latest/stable
 
 actions:
   pi: pi "$@"
