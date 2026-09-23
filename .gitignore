@@ -8,3 +8,6 @@
 *.so
 *.tar.xz
 *.sdk
+
+# spread reuse state (created when a previous run leaves instances around)
+.spread-reuse.yaml

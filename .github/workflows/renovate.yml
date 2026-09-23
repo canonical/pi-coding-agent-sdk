@@ -1,24 +1,16 @@
 name: Renovate
 
 on:
-  schedule:
-    - cron: "0 4 * * 1-5"
+  # Scheduled runs are handled by the Renovate GitHub App; this one is manual-only.
   workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
 
 jobs:
   renovate:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: write
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v6
-
-      - name: Run Renovate
-        uses: renovatebot/github-action@v43.0.12
-        with:
-          configurationFile: renovate.json
-          token: ${{ github.token }}
-        env:
-          RENOVATE_REPOSITORIES: ${{ github.repository }}
+    uses: canonical/sdkcraft-actions/.github/workflows/renovate.yml@main
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
