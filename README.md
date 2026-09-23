@@ -1,11 +1,8 @@
 # Pi Coding Agent CLI SDK for Workshop
 
 This SDK provides the Pi Coding Agent for AI-assisted coding within a
-workshop. The agent is sandboxed in the workshop container. Credentials 
-are persisted between workshop updates.
-
-SDK releases follow the VERSION file in this repository via `adopt-info` in
-`sdkcraft.yaml`.
+workshop. The agent is sandboxed in the workshop container. Credentials are
+persisted between workshop updates.
 
 ---
 
@@ -38,8 +35,10 @@ The agent is sandboxed by the workshop.
 1. No prerequisite SDKs are required.
 2. Place your project files in your project directory. No special layout is
    required; Pi works with any codebase.
-3. On launch, the SDK configures `PATH` for the `pi` binary
-   and adds a `pi-instructions.md` hint about the workshop environment.
+3. On launch, the SDK puts `pi` on the `PATH`, installs `fd` and `ripgrep`
+   for pi's search tools, and adds a hint about the workshop environment to
+   `~/.pi/agent/AGENTS.md`. An existing `AGENTS.md` is kept; the hint is
+   appended once.
 
 ### Start a coding session
 
@@ -64,7 +63,8 @@ pi to read files, write code, run commands, and navigate your project.
 - Purpose: Preserves Pi coding agent's credentials and settings between workshop updates.
   You can also use `workshop remount` to control its contents on the host.
   To mount your existing `~/.pi` settings into the workshop, stop
-  the workshop first, remount, then start it again:
+  the workshop first, remount, then start it again. The workshop hint is then
+  appended to your host `~/.pi/agent/AGENTS.md` as well:
 
   ```bash
   workshop stop <workshop-name>
@@ -81,7 +81,7 @@ This SDK doesn't define any slots.
 ## Documentation and guidance
 
 - [Pi documentation](https://pi.dev/docs/latest)
-- [Workshop documentation](https://canonical-workshop.readthedocs-hosted.com/latest/)
+- [Workshop documentation](https://ubuntu.com/workshop/docs/)
 
 ---
 
@@ -100,8 +100,8 @@ This SDK doesn't define any slots.
 All contributions, including code, documentation updates, and issue reports,
 are welcome!
 
-- See `CONTRIBUTING.md` for guidelines.
-- Open issues or pull requests on the official repository.
+- Open issues or pull requests on the
+  [official repository](https://github.com/canonical/pi-coding-agent-sdk).
 
 ---
 
