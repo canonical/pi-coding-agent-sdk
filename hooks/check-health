@@ -3,6 +3,11 @@ if [[ ! -x "${SDK}/bin/pi" ]]; then
 	exit 0
 fi
 
+if [[ ! -x "${SDK}/wrapper/pi" ]]; then
+	workshopctl set-health --code="pi-wrapper-not-installed" error "Pi session wrapper not installed."
+	exit 0
+fi
+
 if ! sudo -u workshop --login which pi >/dev/null 2>&1; then
 	workshopctl set-health --code="pi-not-in-path" error "Pi CLI not available on the \$PATH."
 	exit 0
