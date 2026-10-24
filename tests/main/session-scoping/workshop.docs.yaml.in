@@ -1,0 +1,4 @@
+name: docs
+base: ${BASE}
+sdks:
+  - name: try-pi

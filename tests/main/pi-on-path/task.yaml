@@ -8,6 +8,7 @@ restore: |
   workshop remove || true
 
 execute: |
+  workshop exec -- which pi | MATCH '/wrapper/pi$'
   workshop exec -- pi --version
 
 debug: |

@@ -1,0 +1,74 @@
+# Regression test for https://github.com/canonical/pi-sdk/issues/40.
+# Workshop mounts every project at /project, and Pi groups sessions by cwd.
+# Sharing pi-config therefore used to mix sessions between workshops, allowing
+# --continue to select another workshop's session. This test guards the
+# per-workshop session scope and its stability across the workshop lifecycle.
+summary: Pi sessions are scoped by logical workshop when pi-config is shared
+
+prepare: |
+  mkdir -p .workshop shared-pi
+  envsubst '${BASE}' <workshop.dev.yaml.in >.workshop/dev.yaml
+  envsubst '${BASE}' <workshop.docs.yaml.in >.workshop/docs.yaml
+  workshop launch dev
+  workshop launch docs
+  workshop stop dev
+  workshop stop docs
+  workshop remount dev/try-pi:pi-config "$PWD/shared-pi"
+  workshop remount docs/try-pi:pi-config "$PWD/shared-pi"
+  workshop start dev
+  workshop start docs
+
+restore: |
+  workshop remove dev || true
+  workshop remove docs || true
+
+execute: |
+  # Run Pi in the named workshop with a local faux provider, allowing the test
+  # to create real sessions without credentials or network access.
+  pi_faux() {
+    workshop exec "$1" -- \
+      pi --offline --no-tools --no-extensions \
+      --extension /project/faux-provider.ts \
+      --provider faux --model faux-1 "${@:2}"
+  }
+  # Run Pi in dev with an explicit session directory, independently of the
+  # default history, to verify that the wrapper preserves this override.
+  pi_faux_custom() {
+    workshop exec dev -- \
+      env PI_CODING_AGENT_SESSION_DIR=/tmp/custom-pi-sessions \
+      pi --offline --no-tools --no-extensions \
+      --extension /project/faux-provider.ts \
+      --provider faux --model faux-1 "$@"
+  }
+
+  # Create dev first and docs second. If the sessions share a pool, dev's
+  # --continue will incorrectly resume the newer docs session.
+  pi_faux dev --session-id dev-only --name dev-only --print DEV-ONLY
+  pi_faux docs --session-id docs-only --name docs-only --print DOCS-ONLY
+
+  test "$(pi_faux dev --continue --print)" = DEV-ONLY
+  test "$(pi_faux docs --continue --print)" = DOCS-ONLY
+  ! pi_faux dev --session docs-only --print >/dev/null 2>&1
+  ! pi_faux docs --session dev-only --print >/dev/null 2>&1
+
+  echo "Check that stop/start preserves the workshop session history"
+  workshop stop dev
+  workshop start dev
+  test "$(pi_faux dev --continue --print)" = DEV-ONLY
+  test "$(pi_faux docs --continue --print)" = DOCS-ONLY
+
+  echo "Check that refresh preserves the workshop session history and remount"
+  printf '\nactions:\n  session-test: "true"\n' >>.workshop/dev.yaml
+  workshop refresh dev
+  test "$(pi_faux dev --continue --print)" = DEV-ONLY
+  test "$(pi_faux docs --continue --print)" = DOCS-ONLY
+
+  echo "An explicit session directory takes precedence over the SDK default"
+  pi_faux_custom --session-id custom-only --print CUSTOM-ONLY
+  test "$(pi_faux_custom --continue --print)" = CUSTOM-ONLY
+  test "$(pi_faux dev --continue --print)" = DEV-ONLY
+
+debug: |
+  workshop exec dev -- bash -lc 'echo PATH=$PATH; cat /etc/profile.d/pi.sh' || true
+  workshop exec docs -- bash -lc 'echo PATH=$PATH; cat /etc/profile.d/pi.sh' || true
+  workshop exec dev -- ls -laR /home/workshop/.pi/ || true
