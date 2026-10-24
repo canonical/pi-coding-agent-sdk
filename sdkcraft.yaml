@@ -38,6 +38,12 @@ parts:
       tar -xzf "pi-coding-agent-${VERSION}.tgz" --strip-components=1 -C "$CRAFT_PART_SRC"
       rm "pi-coding-agent-${VERSION}.tgz"
 
+  wrapper:
+    plugin: dump
+    source: wrapper
+    organize:
+      pi-session-scoping: wrapper/pi
+
   workshop-prompt:
     plugin: dump
     source: workshop-prompt.md

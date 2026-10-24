@@ -72,6 +72,16 @@ pi to read files, write code, run commands, and navigate your project.
   workshop start <workshop-name>
   ```
 
+  Pi sessions are scoped by the Workshop project ID and workshop name. Sharing
+  `pi-config` therefore shares credentials and settings without mixing sessions
+  between unrelated workshops. Sessions persist across workshop stop/start and
+  refresh, and remain separate when a project has multiple workshops.
+
+  The session history is not shared with Pi running directly on the host.
+  Existing sessions from Pi's former shared `/project` directory are not
+  migrated automatically. Set `PI_CODING_AGENT_SESSION_DIR` or use Pi's
+  `--session-dir` option to override the SDK's session location.
+
 ## Slots (resources this SDK provides)
 
 This SDK doesn't define any slots.

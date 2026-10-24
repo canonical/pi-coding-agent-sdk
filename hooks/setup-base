@@ -2,7 +2,7 @@ set -e
 
 # Workshop manages the pi version, so skip pi.dev's latest-version check.
 cat <<EOF >/etc/profile.d/pi.sh
-export PATH="${SDK}/bin:\$PATH"
+export PATH="${SDK}/wrapper:${SDK}/bin:\$PATH"
 export PI_SKIP_VERSION_CHECK=1
 EOF
 

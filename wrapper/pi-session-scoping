@@ -1,0 +1,31 @@
+#!/usr/bin/bash
+# Scope Pi sessions to the logical Workshop project and workshop. The project
+# lock and workshop name survive stop/start and refresh, unlike an instance ID.
+
+readonly PI_BIN=/var/lib/workshop/sdk/pi/bin/pi
+readonly PROJECT_DIR=/project
+readonly WORKSHOP_LOCK="${PROJECT_DIR}/.workshop.lock"
+
+if [[ -n "${PI_CODING_AGENT_SESSION_DIR:-}" ]]; then
+    exec "${PI_BIN}" "$@"
+fi
+
+if [[ ! -f "${WORKSHOP_LOCK}" ]]; then
+    exec "${PI_BIN}" "$@"
+fi
+
+project_id=$(<"${WORKSHOP_LOCK}")
+workshop_name=$(hostname)
+if [[ -z "${project_id}" ]]; then
+    printf 'pi: empty Workshop project ID in %s\n' "${WORKSHOP_LOCK}" >&2
+    exit 1
+fi
+if [[ -z "${workshop_name}" ]]; then
+    printf 'pi: Workshop name is empty\n' >&2
+    exit 1
+fi
+
+agent_dir=${PI_CODING_AGENT_DIR:-"${HOME}/.pi/agent"}
+export PI_CODING_AGENT_SESSION_DIR="${agent_dir}/workshop-sessions/${project_id}/${workshop_name}"
+
+exec "${PI_BIN}" "$@"
